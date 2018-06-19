@@ -1,0 +1,29 @@
+<div class="modal fade" id="modal-create">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Create</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                	<span>&times;</span>
+                </button>
+			</div>
+            <div class="modal-body">
+            	<form id = 'create_form' action="{% url 'create' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name_id">Name</label>
+                        <input type="text" class="form-control" id="name_id" placeholder="Enter name" name="name" required/>
+                    </div>
+
+                    <div class="form-group">
+                    	<label for="create_form_dob">Date of Birth</label>
+                        <input type="date" class="form-control" id="create_form_dob"  name="date"/>
+                    </div>
+                    <a href="asdfa" > Submit</a>
+              <!--      <button  class="btn btn-primary" id="create_person">Create new person</button> -->
+
+            	</form>
+            </div>
+		</div>
+	</div>
+</div>
