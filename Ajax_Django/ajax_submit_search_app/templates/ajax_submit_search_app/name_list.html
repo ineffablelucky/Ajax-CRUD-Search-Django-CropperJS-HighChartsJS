@@ -36,13 +36,13 @@
             <td></td>
             <td><button data-toggle="modal" data-target="#myModal-{{p.id}}">Delete</button></td>
         </tr>
-        {% include "ajax_submit_search/delete_modal.html" %}
+        {% include "ajax_submit_search_app/delete_modal.html" %}
 
         {% endfor %}
     </tbody>
 </table>
 <script src="{% static 'ajax_submit_search/main.js'%}"></script>
-{% include "ajax_submit_search/create_modal.html" %}
+{% include "ajax_submit_search_app/create_modal.html" %}
 
 
 

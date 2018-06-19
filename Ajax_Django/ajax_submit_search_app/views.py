@@ -6,7 +6,7 @@ from django.contrib import messages
 
 class PeopleList(ListView):
     model = Person
-    template_name = 'ajax_submit_search/name_list.html'
+    template_name = 'ajax_submit_search_app/name_list.html'
     context_object_name = 'people'
 
 
