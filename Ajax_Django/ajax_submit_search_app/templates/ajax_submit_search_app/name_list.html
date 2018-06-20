@@ -28,23 +28,24 @@
             <th class="delete">Delete</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="table_id">
         {% for p in people %}
         <tr>
             <td>{{p.name}}</td>
-            <td>{{p.dob}}</td>
-            <td></td>
+            <td>{{p.dob|date:'Y-m-d' }}</td>
+            <td><button data-toggle="modal" data-target="#edit-modal-{{p.id}}">Update</button></td>
             <td><button data-toggle="modal" data-target="#myModal-{{p.id}}">Delete</button></td>
         </tr>
-        {% include "ajax_submit_search_app/delete_modal.html" %}
+            {% include 'ajax_submit_search_app/update_modal.html' %}
+            {% include "ajax_submit_search_app/delete_modal.html" %}
+
 
         {% endfor %}
+
     </tbody>
 </table>
-<script src="{% static 'ajax_submit_search/main.js'%}"></script>
+<script src="{% static 'ajax_submit_search_app/main.js'%}"></script>
 {% include "ajax_submit_search_app/create_modal.html" %}
-
-
 
 
 </body>
