@@ -22,30 +22,54 @@
 <table>
     <thead>
         <tr>
-            <th class="Name">Name</th>
-            <th class="DOB">Year</th>
-            <th class="Update">Update</th>
-            <th class="delete">Delete</th>
+            <th>Name</th>
+            <th>Year</th>
+            <th>Update</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody id="table_id">
+
         {% for p in people %}
         <tr>
-            <td>{{p.name}}</td>
-            <td>{{p.dob|date:'Y-m-d' }}</td>
-            <td><button data-toggle="modal" data-target="#edit-modal-{{p.id}}">Update</button></td>
-            <td><button data-toggle="modal" data-target="#myModal-{{p.id}}">Delete</button></td>
+            <td class="name">{{p.name}}</td>
+            <td class="date">{{p.dob|date:'Y-m-d' }}</td>
+            <td class="update" data-id="{{p.id}}"><button>Update</button></td>
+            <td class="delete" data-id="{{p.id}}"><button>Delete</button></td>
         </tr>
-            {% include 'ajax_submit_search_app/update_modal.html' %}
-            {% include "ajax_submit_search_app/delete_modal.html" %}
-
-
         {% endfor %}
 
     </tbody>
 </table>
-<script src="{% static 'ajax_submit_search_app/main.js'%}"></script>
 {% include "ajax_submit_search_app/create_modal.html" %}
 
 
+
+
+<!--- DELETE MODAL --->
+<!-- Modal -->
+<div id="myModal-DELETE" class="modal fade" role="dialog">
+<div class="modal-dialog">
+
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+    </div>
+    <div class="modal-body">
+        <form  method="post">
+            {% csrf_token %}
+            <p> Are you sure, you want to delete "{{p.name}}?"</p>
+            <input type="submit" value="Confirm"/>
+        </form>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+<script src="{% static 'ajax_submit_search_app/main.js'%}"></script>
 </body>
