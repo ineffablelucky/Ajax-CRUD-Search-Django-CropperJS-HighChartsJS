@@ -21,7 +21,7 @@ $(document).on('submit','#create_form', function(e){
 $(document).on('click','.delete', function(f) {
     $('#myModal-DELETE').modal('show');
     console.log(this)
-    var data_id = $(this).attr("data-id")
+    var data_id = $(this).data("id")
     console.log(data_id)
     var parent_tag = $(this).parent()
     console.log(parent_tag)
