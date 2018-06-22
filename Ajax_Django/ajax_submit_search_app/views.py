@@ -31,7 +31,7 @@ def update(request, id):
         return JsonResponse(data)
 
     else:
-        data = {'message': 'no updation'}
+        data = {'message': 'invalid request'}
         return JsonResponse(data)
 
 
@@ -52,7 +52,7 @@ def create(request):
         return JsonResponse(data)
 
     else:
-        data = {'message': 'no new creation'}
+        data = {'message': 'invalid request'}
         return JsonResponse(data)
 
 
@@ -72,5 +72,5 @@ def delete(request, pk):
         return JsonResponse(data)
 
     else:
-        data = {'message': 'fail'}
+        data = {'message': 'invalid request'}
         return JsonResponse(data)
