@@ -24,22 +24,15 @@ def update(request, id):
             person_obj.save()
             data = {'name': name, 'date': date, 'id': person_obj.id, 'message': 'successful'}
 
-            return JsonResponse(data)
-
         except:
             print("updated failed")
             data = {'message': 'fail'}
-            return JsonResponse(data)
+
+        return JsonResponse(data)
 
     else:
-        try:
-            person_obj = Person.objects.get(id=id)
-            data = {'name': person_obj.name, 'date': person_obj.dob, 'id': person_obj.id, 'message': 'successful'}
-            return JsonResponse(data)
-        except:
-            print("no object with this id-----------")
-            data = {'message': 'fail'}
-            return JsonResponse(data)
+        data = {'message': 'no updation'}
+        return JsonResponse(data)
 
 
 def create(request):
@@ -58,6 +51,10 @@ def create(request):
 
         return JsonResponse(data)
 
+    else:
+        data = {'message': 'no new creation'}
+        return JsonResponse(data)
+
 
 def delete(request, pk):
     if request.method == "POST":
@@ -72,4 +69,8 @@ def delete(request, pk):
         except:
             data = {'message': 'fail'}
 
+        return JsonResponse(data)
+
+    else:
+        data = {'message': 'fail'}
         return JsonResponse(data)

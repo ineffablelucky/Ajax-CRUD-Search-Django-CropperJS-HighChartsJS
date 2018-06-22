@@ -1,7 +1,3 @@
-//
-// {% include 'ajax_submit_search_app/update_modal.html' %}
-// {% include "ajax_submit_search_app/delete_modal.html" %}
-//
 
 $(document).on('submit','#create_form', function(e){
     e.preventDefault();
@@ -32,12 +28,12 @@ $(document).on('submit','#create_form', function(e){
 $(document).on('click','.delete', function() {
 
     $('#myModal-DELETE').modal('show');
+
     let data_id = $(this).data("id");
     var parent_tag = $(this).parent();
     $( "#delete_form" ).data( "all-info", {id:data_id, parent_tag:parent_tag}); //appending id and parent to form
 
     let children_tag_text = parent_tag.children("td:nth-child(1)").text();
-
     $("#delete_question").text("Are you sure, you want to delete "+ children_tag_text +"?");
 
 });
@@ -79,6 +75,7 @@ $(document).on('click','.update', function() {
     //$( "#delete_form" ).data( "all-info", {id:data_id, parent_tag:parent_tag}); //appending id and parent to form
 
     let children_tag_text = parent_tag.children("td:nth-child(1)").text();
+    console.log(children_tag_text)
 
     //$("#delete_question").text("Are you sure, you want to delete "+ children_tag_text +"?");
 });
