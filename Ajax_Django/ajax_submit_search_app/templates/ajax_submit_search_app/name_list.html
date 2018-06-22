@@ -37,12 +37,11 @@
             <td class="update" data-id="{{p.id}}"><button>Update</button></td>
             <td class="delete" data-id="{{p.id}}"><button>Delete</button></td>
         </tr>
-        {% endfor %}
+       {% endfor %}
 
     </tbody>
 </table>
 {% include "ajax_submit_search_app/create_modal.html" %}
-
 
 
 
@@ -58,9 +57,9 @@
 
     </div>
     <div class="modal-body">
-        <form  method="post">
+        <form id="delete_form" method="post">
             {% csrf_token %}
-            <p> Are you sure, you want to delete "{{p.name}}?"</p>
+            <p id="delete_question"> Are You Sure? </p>
             <input type="submit" value="Confirm"/>
         </form>
     </div>
@@ -71,5 +70,36 @@
 
 
 
-<script src="{% static 'ajax_submit_search_app/main.js'%}"></script>
+
+<!-- UPDATE MODAL-->
+<div class="modal fade" id="myModal-EDIT">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="editModal"><!--{{p.name}}--></h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+			</div>
+            <div class="modal-body">
+            	<form id = "update_form" method="post">
+                    {% csrf_token %}
+
+            		<div class="form-group">
+            			<label for="editName">Name</label>
+                        <input type="text" class="form-control" id="editName" placeholder="Enter name" name="name" value="" required/>
+            		</div>
+
+                    <div class="form-group">
+                    	<label for="update_form_dob">Date of Birth</label>
+                        <input class="form-control" id="update_form_dob" value="" name="date"/>
+                    </div>
+
+                    <input type="submit" value="Confirm"/>
+
+            	</form>
+            </div>
+		</div>
+	</div>
+</div>
+
+<script src="{% static 'ajax_submit_search_app/main.js' %}"></script>
 </body>
