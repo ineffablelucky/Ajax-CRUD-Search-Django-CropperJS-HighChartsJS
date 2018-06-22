@@ -72,13 +72,18 @@ $(document).on('click','.update', function() {
     console.log(data_id)
     var parent_tag = $(this).parent();
     console.log(parent_tag);
-    //$( "#delete_form" ).data( "all-info", {id:data_id, parent_tag:parent_tag}); //appending id and parent to form
 
-    let children_tag_text = parent_tag.children("td:nth-child(1)").text();
-    console.log(children_tag_text)
+
+    let children_tag_text = parent_tag.children("td:first-child").text();
+    let children_tag_dob = parent_tag.children("td:nth-child(2)").text();
+    console.log(children_tag_text);
+    console.log(children_tag_dob);
 
     //$("#delete_question").text("Are you sure, you want to delete "+ children_tag_text +"?");
 });
+
+
+
 
 /*
 $(document).on('submit','#update_form', function(e) {
