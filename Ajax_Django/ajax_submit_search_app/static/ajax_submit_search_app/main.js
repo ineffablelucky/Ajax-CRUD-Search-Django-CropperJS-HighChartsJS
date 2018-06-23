@@ -18,10 +18,7 @@ $(document).on('submit','#create_form', function(e){
                 $('.close').trigger('click');
                 $("#table_id").append('<tr><td class="name">'+ data.name + '</td><td class="date">'+ data.date +'<td class="update" data-id='+ data.id + '><button>Update</button></td><td class="delete" data-id=' + data.id +'><button>Delete</button></td>');
          };
-
-
       });
-
 });
 
 
@@ -57,10 +54,9 @@ $(document).on("submit",'#delete_form', function(f){
             parent_tag.remove();
             }
 
-         else if (data.message === 'fail'){
+         else if (data.message === 'fail') {
             alert("something went wrong. Refresh the page")
          }
-
     });
 
 });
@@ -77,5 +73,31 @@ $(document).on('click','.update', function() {
     $('#update_form_dob').val($(this).siblings('.date').text());
 
     $( "#update_form" ).data( "all-info", {id:data_id, all_siblings:all_siblings});
+});
+
+
+$(document).on("submit", "#update_form", function(g) {
+    g.preventDefault();
+
+    let data_id =  $( "#update_form" ).data("all-info").id;
+    let sibling_tags = $( "#update_form" ).data("all-info").all_siblings;
+
+    $.ajax({
+                 type:"POST",
+                 url:"update/",
+                 data: {
+                        // from form
+                        'id' : data_id,
+                        'name' : $('#editName').val(),
+                        'dob' : $('#update_form_dob').val(),
+                        'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+                        },
+                 success: function(data){
+                     console.log(data)
+                 },
+                 error: function(){
+                    alert("No return , AJAX ERROR")
+                 }
+            });
 });
 

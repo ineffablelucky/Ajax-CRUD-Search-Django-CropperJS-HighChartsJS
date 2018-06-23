@@ -1,31 +1,26 @@
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import render
 from django.http import JsonResponse
 from .models import Person
-from django.contrib import messages
-from django.views.generic import DetailView
+from .forms import UpdateForm
 
 
-def PeopleList(request):
+def people_list(request):
     data = Person.objects.all()
     return render(request, 'ajax_submit_search_app/name_list.html', {'people': data})
 
 
-def update(request, id):
+def create(request):
+
     if request.method == "POST":
+
         name = request.POST['name']
-        print('++++++name', name)
         date = request.POST.get('date')
-        print('----date', date)
 
         try:
-            person_obj = Person.objects.get(id=id)
-            person_obj.dob = date
-            person_obj.name = name
-            person_obj.save()
+            person_obj = Person.objects.create(name=name, dob=date)
             data = {'name': name, 'date': date, 'id': person_obj.id, 'message': 'successful'}
 
         except:
-            print("updated failed")
             data = {'message': 'fail'}
 
         return JsonResponse(data)
@@ -35,19 +30,46 @@ def update(request, id):
         return JsonResponse(data)
 
 
-def create(request):
-    if request.method == "POST":
-        name = request.POST['name']
-        print('++++++name', name)
-        date = request.POST.get('date')
-        print(date)
-        try:
-            person_obj = Person.objects.create(name=name, dob=date)
-            print(person_obj.dob)
-            data = {'name': name, 'date': date, 'id': person_obj.id, 'message': 'successful'}
+def update(request):
 
-        except:
-            data = {'message': 'fail'}
+    #< QueryDict: {'csrfmiddlewaretoken': ['SZw8DViiuPlSpFTtoeu9DFXlDVE0L63R8W38UOhXyatquOPKmTnrr3T5hAj1cGPq'],
+    #              'company_name': ['doe'], 'year': ['2010']} >
+
+    if request.method == "POST":
+
+        name = request.POST['name']
+        date = request.POST.get('dob')
+        csrf = request.POST.get('csrfmiddlewaretoken')
+        print(csrf)
+        obj_id = request.POST.get('id')
+        dict = {
+            'csrfmiddlewaretoken': [csrf],
+            'name': [name],
+            'dob': [date]
+        }
+        person_obj = Person.objects.get(id=obj_id)
+        form = UpdateForm(dict, instance=person_obj)
+        if form.is_valid():
+            form.save(commit=True)
+        print("44444", person_obj)
+        person_obj.dob = date
+        person_obj.name = name
+        # person_obj.save()
+        data = {'name': person_obj.name, 'date': person_obj.obj, 'id': person_obj.id, 'message': 'successful'}
+
+        # try:
+        #     person_obj = Person.objects.get(id=obj_id)
+        #     form = UpdateForm(dict, instance=person_obj)
+        #     if form.is_valid():
+        #         form.save(commit=True)
+        #     print("44444", person_obj)
+        #     person_obj.dob = date
+        #     person_obj.name = name
+        #     # person_obj.save()
+        #     data = {'name': person_obj.name, 'date': person_obj.obj, 'id': person_obj.id, 'message': 'successful'}
+        #
+        # except:
+        #     data = {'message': 'fail'}
 
         return JsonResponse(data)
 
@@ -57,12 +79,11 @@ def create(request):
 
 
 def delete(request, pk):
+
     if request.method == "POST":
 
-        print("pk========", pk)
         try:
             person_obj = Person.objects.get(id=pk)
-            print(person_obj)
             person_obj.delete()
             data = {'message': 'successful'}
 
