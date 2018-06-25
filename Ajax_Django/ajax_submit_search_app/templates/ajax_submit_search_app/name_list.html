@@ -18,6 +18,13 @@
 
 <button type="button"  data-toggle="modal" data-target="#modal-create">ADD</button>
 
+
+<form id="search_form" method="post">
+    {% csrf_token %}
+    <input id="search_bar" type="text" placeholder="Search..">
+</form>
+
+
 <body>
 <table>
     <thead>
@@ -28,7 +35,9 @@
             <th>Delete</th>
         </tr>
     </thead>
+
     <tbody id="table_id">
+
 
         {% for p in people %}
         <tr>
@@ -41,6 +50,7 @@
 
     </tbody>
 </table>
+<p id="No-result-tag"></p>
 {% include "ajax_submit_search_app/create_modal.html" %}
 
 

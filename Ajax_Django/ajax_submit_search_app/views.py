@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .models import Person
 from .forms import UpdateForm
+from django.core import serializers
 
 
 def people_list(request):
@@ -13,7 +14,7 @@ def create(request):
 
     if request.method == "POST":
 
-        name = request.POST['name']
+        name = request.POST['name'].title()
         date = request.POST.get('date')
 
         try:
@@ -32,7 +33,7 @@ def create(request):
 
 def update(request):
 
-    #< QueryDict: {'csrfmiddlewaretoken': ['SZw8DViiuPlSpFTtoeu9DFXlDVE0L63R8W38UOhXyatquOPKmTnrr3T5hAj1cGPq'],
+    # < QueryDict: {'csrfmiddlewaretoken': ['SZw8DViiuPlSpFTtoeu9DFXlDVE0L63R8W38UOhXyatquOPKmTnrr3T5hAj1cGPq'],
     #              'company_name': ['doe'], 'year': ['2010']} >
 
     if request.method == "POST":
@@ -40,31 +41,20 @@ def update(request):
         name = request.POST['name']
         date = request.POST.get('dob')
         csrf = request.POST.get('csrfmiddlewaretoken')
-        print(csrf)
         obj_id = request.POST.get('id')
 
-        dict = {
+        update_dict = {
             'csrfmiddlewaretoken': csrf,
             'name': name,
             'dob': date
         }
-        # person_obj = Person.objects.get(id=obj_id)
-        # form = UpdateForm(dict, instance=person_obj)
-        # if form.is_valid():
-        #     form.save(commit=True)
-        # print("44444", person_obj)
-        # person_obj.dob = date
-        # person_obj.name = name
-        # # person_obj.save()
-        # data = {'name': person_obj.name, 'date': person_obj.dob, 'id': person_obj.id, 'message': 'successful'}
 
         try:
             person_obj = Person.objects.get(id=obj_id)
-            form = UpdateForm(dict, instance=person_obj)
+            form = UpdateForm(update_dict, instance=person_obj)
 
             if form.is_valid():
                 form.save(commit=True)
-            print("44444", person_obj)
 
             data = {'name': person_obj.name, 'date': person_obj.dob, 'id': person_obj.id, 'message': 'successful'}
 
@@ -89,6 +79,25 @@ def delete(request, pk):
 
         except:
             data = {'message': 'fail'}
+
+        return JsonResponse(data)
+
+    else:
+        data = {'message': 'invalid request'}
+        return JsonResponse(data)
+
+
+def search(request):
+    if request.method == "POST":
+
+        query = request.POST.get('search_input')
+        queryset = Person.objects.filter(name__istartswith=query)
+
+        if not queryset:
+            data = {'message': 'No Results'}
+        else:
+            result = serializers.serialize('json', queryset)
+            data = {'message': 'successful', 'result': result}
 
         return JsonResponse(data)
 

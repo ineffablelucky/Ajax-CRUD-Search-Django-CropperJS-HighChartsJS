@@ -68,6 +68,7 @@ $(document).on('click','.update', function() {
 
     let data_id = $(this).data("id");
     var all_siblings = $(this).siblings();
+    console.log(all_siblings)
 
     $('#editName').val($(this).siblings('.name').text());
     $('#update_form_dob').val($(this).siblings('.date').text());
@@ -86,7 +87,7 @@ $(document).on("submit", "#update_form", function(g) {
                  type:"POST",
                  url:"update/",
                  data: {
-                        // from form
+                        // from html form
                         'id' : data_id,
                         'name' : $('#editName').val(),
                         'dob' : $('#update_form_dob').val(),
@@ -96,18 +97,57 @@ $(document).on("submit", "#update_form", function(g) {
                      if (data.message === 'successful') {
                         $('.close').trigger('click');
 
-                        sibling_tags[0].innerHTML=data.name;
-                        sibling_tags[1].innerHTML=data.date;
+                        sibling_tags[0].innerHTML = data.name;
+                        sibling_tags[1].innerHTML = data.date;
 
                      }
                      else if (data.message === 'fail') {
-                      alert("something went wrong");
+                      alert("Not a correct Input.");
                      }
 
                  },
                  error: function(){
                     alert("No return from server , AJAX ERROR");
                  }
-            });
+        });
 });
+
+
+$("#search_bar").keyup(function(){
+        let search_input =  $("#search_bar").val();
+        let tbody_children = $("#table_id").children('tr');
+        console.log(tbody_children);
+
+        $.ajax({
+               type: "POST",
+               url: "search/",
+               data: {
+                    'search_input': search_input,
+                    'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+               },
+               success: function(data){
+                    console.log(data);
+                    if (data.message === 'No Results') {
+                        tbody_children.remove();
+                        $('#No-result-tag').html("No results found.");
+                    }
+                    else if (data.message === 'successful') {
+                        $('#No-result-tag').html("");
+                        var json_result = JSON.parse(data.result)
+
+                        $.each(json_result, function(index, value){
+                            console.log(index);
+                            console.log(value.fields);
+                        })
+
+//                        for (var i=0, i<json_result.length, i++) {
+//                          $("#table_id").append('<tr><td class="name">'+ json_result.fields.name + '</td><td class="date">'+ data.fields.dob +'<td class="update" data-id='+ json_result.pk + '><button>Update</button></td><td class="delete" data-id=' + json_result.pk +'><button>Delete</button></td>');
+//         };
+                        }
+                    }
+
+               });
+        });
+
+
 
