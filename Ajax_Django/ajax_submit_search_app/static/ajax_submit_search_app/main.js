@@ -93,10 +93,20 @@ $(document).on("submit", "#update_form", function(g) {
                         'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
                         },
                  success: function(data){
-                     console.log(data)
+                     if (data.message === 'successful') {
+                        $('.close').trigger('click');
+
+                        sibling_tags[0].innerHTML=data.name;
+                        sibling_tags[1].innerHTML=data.date;
+
+                     }
+                     else if (data.message === 'fail') {
+                      alert("something went wrong");
+                     }
+
                  },
                  error: function(){
-                    alert("No return , AJAX ERROR")
+                    alert("No return from server , AJAX ERROR");
                  }
             });
 });

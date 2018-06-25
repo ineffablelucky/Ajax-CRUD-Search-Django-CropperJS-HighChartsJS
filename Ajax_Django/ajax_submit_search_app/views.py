@@ -42,34 +42,34 @@ def update(request):
         csrf = request.POST.get('csrfmiddlewaretoken')
         print(csrf)
         obj_id = request.POST.get('id')
-        dict = {
-            'csrfmiddlewaretoken': [csrf],
-            'name': [name],
-            'dob': [date]
-        }
-        person_obj = Person.objects.get(id=obj_id)
-        form = UpdateForm(dict, instance=person_obj)
-        if form.is_valid():
-            form.save(commit=True)
-        print("44444", person_obj)
-        person_obj.dob = date
-        person_obj.name = name
-        # person_obj.save()
-        data = {'name': person_obj.name, 'date': person_obj.obj, 'id': person_obj.id, 'message': 'successful'}
 
-        # try:
-        #     person_obj = Person.objects.get(id=obj_id)
-        #     form = UpdateForm(dict, instance=person_obj)
-        #     if form.is_valid():
-        #         form.save(commit=True)
-        #     print("44444", person_obj)
-        #     person_obj.dob = date
-        #     person_obj.name = name
-        #     # person_obj.save()
-        #     data = {'name': person_obj.name, 'date': person_obj.obj, 'id': person_obj.id, 'message': 'successful'}
-        #
-        # except:
-        #     data = {'message': 'fail'}
+        dict = {
+            'csrfmiddlewaretoken': csrf,
+            'name': name,
+            'dob': date
+        }
+        # person_obj = Person.objects.get(id=obj_id)
+        # form = UpdateForm(dict, instance=person_obj)
+        # if form.is_valid():
+        #     form.save(commit=True)
+        # print("44444", person_obj)
+        # person_obj.dob = date
+        # person_obj.name = name
+        # # person_obj.save()
+        # data = {'name': person_obj.name, 'date': person_obj.dob, 'id': person_obj.id, 'message': 'successful'}
+
+        try:
+            person_obj = Person.objects.get(id=obj_id)
+            form = UpdateForm(dict, instance=person_obj)
+
+            if form.is_valid():
+                form.save(commit=True)
+            print("44444", person_obj)
+
+            data = {'name': person_obj.name, 'date': person_obj.dob, 'id': person_obj.id, 'message': 'successful'}
+
+        except:
+            data = {'message': 'fail'}
 
         return JsonResponse(data)
 
