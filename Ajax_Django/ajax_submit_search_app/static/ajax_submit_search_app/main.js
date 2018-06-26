@@ -116,7 +116,6 @@ $(document).on("submit", "#update_form", function(g) {
 $("#search_bar").keyup(function(){
         let search_input =  $("#search_bar").val();
         let tbody_children = $("#table_id").children('tr');
-        console.log(tbody_children);
 
         $.ajax({
                type: "POST",
@@ -126,28 +125,26 @@ $("#search_bar").keyup(function(){
                     'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
                },
                success: function(data){
-                    console.log(data);
+
                     if (data.message === 'No Results') {
                         tbody_children.remove();
                         $('#No-result-tag').html("No results found.");
                     }
                     else if (data.message === 'successful') {
                         $('#No-result-tag').html("");
-                        var json_result = JSON.parse(data.result)
+                        tbody_children.remove();
+
+                        var json_result = JSON.parse(data.result);
 
                         $.each(json_result, function(index, value){
-                            console.log(index);
-                            console.log(value.fields);
-                        })
+                            $("#table_id").append('<tr><td class="name">'+ value.fields.name + '</td><td class="date">'+ value.fields.dob +'<td class="update" data-id='+ value.pk + '><button>Update</button></td><td class="delete" data-id=' + value.pk +'><button>Delete</button></td>');
+                        });
 
-//                        for (var i=0, i<json_result.length, i++) {
-//                          $("#table_id").append('<tr><td class="name">'+ json_result.fields.name + '</td><td class="date">'+ data.fields.dob +'<td class="update" data-id='+ json_result.pk + '><button>Update</button></td><td class="delete" data-id=' + json_result.pk +'><button>Delete</button></td>');
-//         };
-                        }
                     }
+               }
 
-               });
         });
+});
 
 
 
