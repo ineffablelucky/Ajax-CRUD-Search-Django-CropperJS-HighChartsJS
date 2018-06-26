@@ -11,7 +11,6 @@ def people_list(request):
 
 
 def create(request):
-
     if request.method == "POST":
 
         name = request.POST['name'].title()
@@ -32,7 +31,6 @@ def create(request):
 
 
 def update(request):
-
     # < QueryDict: {'csrfmiddlewaretoken': ['SZw8DViiuPlSpFTtoeu9DFXlDVE0L63R8W38UOhXyatquOPKmTnrr3T5hAj1cGPq'],
     #              'company_name': ['doe'], 'year': ['2010']} >
 
@@ -69,7 +67,6 @@ def update(request):
 
 
 def delete(request, pk):
-
     if request.method == "POST":
 
         try:

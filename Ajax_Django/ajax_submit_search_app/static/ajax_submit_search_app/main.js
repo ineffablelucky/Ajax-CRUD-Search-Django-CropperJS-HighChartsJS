@@ -1,3 +1,5 @@
+$( document ).ready(function() {
+
 
 $(document).on('submit','#create_form', function(e){
     e.preventDefault();
@@ -68,7 +70,6 @@ $(document).on('click','.update', function() {
 
     let data_id = $(this).data("id");
     var all_siblings = $(this).siblings();
-    console.log(all_siblings)
 
     $('#editName').val($(this).siblings('.name').text());
     $('#update_form_dob').val($(this).siblings('.date').text());
@@ -130,6 +131,7 @@ $("#search_bar").keyup(function(){
                         tbody_children.remove();
                         $('#No-result-tag').html("No results found.");
                     }
+
                     else if (data.message === 'successful') {
                         $('#No-result-tag').html("");
                         tbody_children.remove();
@@ -147,4 +149,6 @@ $("#search_bar").keyup(function(){
 });
 
 
+
+});
 
