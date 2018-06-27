@@ -28,10 +28,10 @@ $(document).on('click','.delete', function() {
 
     $('#myModal-DELETE').modal('show');
 
-    let data_id = $(this).data("id");
-    var parent_tag = $(this).parent();
+//    let data_id = $(this).data("id");
+//    var parent_tag = $(this).parent();
 
-    $( "#delete_form" ).data( "all-info", {id:data_id, parent_tag:parent_tag}); //appending id and parent to form
+    $( "#delete_form" ).data( "all-info", {id:$(this).data("id"), parent_tag:$(this).parent()}); //appending id and parent to form
 
     let children_tag_text = parent_tag.children("td:nth-child(1)").text();
     $("#delete_question").text("Are you sure, you want to delete "+ children_tag_text +"?");
@@ -68,13 +68,13 @@ $(document).on('click','.update', function() {
 
     $('#myModal-EDIT').modal('show');
 
-    let data_id = $(this).data("id");
-    var all_siblings = $(this).siblings();
+//    let data_id = $(this).data("id");
+//    var all_siblings = $(this).siblings();
 
     $('#editName').val($(this).siblings('.name').text());
     $('#update_form_dob').val($(this).siblings('.date').text());
 
-    $( "#update_form" ).data( "all-info", {id:data_id, all_siblings:all_siblings});
+    $( "#update_form" ).data( "all-info", {id:$(this).data("id"), all_siblings:$(this).siblings()});
 });
 
 
@@ -115,26 +115,26 @@ $(document).on("submit", "#update_form", function(g) {
 
 
 $("#search_bar").keyup(function(){
-        let search_input =  $("#search_bar").val();
-        let tbody_children = $("#table_id").children('tr');
+//        let search_input =  $("#search_bar").val();
+//        let tbody_children = $("#table_id").children('tr');
 
         $.ajax({
                type: "POST",
                url: "search/",
                data: {
-                    'search_input': search_input,
+                    'search_input': $("#search_bar").val(),
                     'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
                },
                success: function(data){
 
                     if (data.message === 'No Results') {
-                        tbody_children.remove();
+                        $("#table_id").children('tr').remove();
                         $('#No-result-tag').html("No results found.");
                     }
 
                     else if (data.message === 'successful') {
                         $('#No-result-tag').html("");
-                        tbody_children.remove();
+                        $("#table_id").children('tr').remove();
 
                         var json_result = JSON.parse(data.result);
 
