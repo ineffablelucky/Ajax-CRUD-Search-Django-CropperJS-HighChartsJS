@@ -33,7 +33,7 @@ $(document).on('click','.delete', function() {
 
     $( "#delete_form" ).data( "all-info", {id:$(this).data("id"), parent_tag:$(this).parent()}); //appending id and parent to form
 
-    let children_tag_text = parent_tag.children("td:nth-child(1)").text();
+    let children_tag_text = $(this).parent().children("td:nth-child(1)").text();
     $("#delete_question").text("Are you sure, you want to delete "+ children_tag_text +"?");
 
 });
