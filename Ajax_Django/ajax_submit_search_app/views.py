@@ -24,14 +24,14 @@ def create(request):
 
         try:
             if request.POST['cropped_img']:
-                # cropped image in base 64 format
+                # cropped image in base 64 format_type
                 file = request.POST.get("cropped_img")
-                format, imgstr = file.split(';base64,')
-                ext = format.split('/')[-1]
+                format_type, img_str = file.split(';base64,')
+                ext = format_type.split('/')[-1]
                 date_time = datetime.now()
-                image_file = ContentFile(base64.b64decode(imgstr), name='cover' + str(date_time) + '.' + ext)
+                image_file = ContentFile(base64.b64decode(img_str), name='cover' + str(date_time) + '.' + ext)
 
-                Image.open(image_file).verify()  # verifying the image format
+                Image.open(image_file).verify()  # verifying the image format_type
 
                 person_obj = Person.objects.create(name=name, dob=date, image=image_file)
 
