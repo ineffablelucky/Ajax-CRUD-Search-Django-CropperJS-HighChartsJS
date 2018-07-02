@@ -4,6 +4,9 @@ from .models import Person
 from .forms import UpdateForm
 from django.core import serializers
 from PIL import Image
+import base64
+from django.core.files.base import ContentFile
+from datetime import datetime
 
 
 def people_list(request):
@@ -16,11 +19,23 @@ def create(request):
 
         name = request.POST['name'].title()
         date = request.POST.get('date')
-        image = request.FILES['pic']
 
         try:
-            Image.open(image).verify()  # verifying the image format
-            person_obj = Person.objects.create(name=name, dob=date, image=image)
+            if request.POST['cropped_img']:
+                # cropped image in base 64 format
+                file = request.POST.get("cropped_img")
+                format, imgstr = file.split(';base64,')
+                ext = format.split('/')[-1]
+                date_time = datetime.now()
+                image_file = ContentFile(base64.b64decode(imgstr), name='cover' + str(date_time) + '.' + ext)
+
+                Image.open(image_file).verify()  # verifying the image format
+
+                person_obj = Person.objects.create(name=name, dob=date, image=image_file)
+
+            else:
+                person_obj = Person.objects.create(name=name, dob=date)
+
             data = {'name': name, 'date': date, 'id': person_obj.id, 'message': 'successful'}
 
         except:
