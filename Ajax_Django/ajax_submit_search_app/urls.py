@@ -1,4 +1,6 @@
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from .views import people_list, delete, create, update, search
 
 urlpatterns = [
@@ -8,4 +10,4 @@ urlpatterns = [
     path('create/', view=create, name='create'),
     path('search/', view=search, name='search'),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

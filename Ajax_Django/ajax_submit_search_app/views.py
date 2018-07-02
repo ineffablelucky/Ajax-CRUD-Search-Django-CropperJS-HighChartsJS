@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from .models import Person
 from .forms import UpdateForm
 from django.core import serializers
+from PIL import Image
 
 
 def people_list(request):
@@ -15,9 +16,11 @@ def create(request):
 
         name = request.POST['name'].title()
         date = request.POST.get('date')
+        image = request.FILES['pic']
 
         try:
-            person_obj = Person.objects.create(name=name, dob=date)
+            Image.open(image).verify()  # verifying the image format
+            person_obj = Person.objects.create(name=name, dob=date, image=image)
             data = {'name': name, 'date': date, 'id': person_obj.id, 'message': 'successful'}
 
         except:

@@ -4,24 +4,51 @@ $( document ).ready(function() {
 $(document).on('submit','#create_form', function(e){
     e.preventDefault();
 
-    $.post("create/",
-      { name : $("#name_id").val(),
-        date : $("#create_form_dob").val(),
-        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
+    formData = new FormData(document.getElementById('create_form'))
 
-      }, function(data) {
-            if (data.message === 'fail') {
-                alert("Enter correct input");
-            }
+    $.ajax({
+                 type:"POST",
+                 url:"create/",
+                 data: formData,
+                 cache: false,
+                 processData: false,
+                 contentType: false,
+                 success: function(data){
+                     if (data.message === 'fail') {
+                        alert("Enter correct input");
+                     }
 
-            else if (data.message === 'successful') {
-                $("#name_id").val('');
-                $("#create_form_dob").val('');
-                $('.close').trigger('click');
-                $("#table_id").append('<tr><td class="name">'+ data.name + '</td><td class="date">'+ data.date +'<td class="update" data-id='+ data.id + '><button>Update</button></td><td class="delete" data-id=' + data.id +'><button>Delete</button></td>');
-         };
-      });
+                     else if (data.message === 'successful') {
+
+                        $("#name_id").val('');
+                        $("#create_form_dob").val('');
+                        $('.close').trigger('click');
+                        $("#table_id").append('<tr><td class="name">'+ data.name + '</td><td class="date">'+ data.date +'<td class="update" data-id='+ data.id + '><button>Update</button></td><td class="delete" data-id=' + data.id +'><button>Delete</button></td>');
+                     };
+                 },
+                 error: function(){
+                    alert("No return from server , maybe incorrect image or date format ");
+                 }
+        });
 });
+//    $.post("create/",
+//      { name : $("#name_id").val(),
+//        date : $("#create_form_dob").val(),
+//        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
+//
+//      }, function(data) {
+//            if (data.message === 'fail') {
+//                alert("Enter correct input");
+//            }
+//
+//            else if (data.message === 'successful') {
+//                $("#name_id").val('');
+//                $("#create_form_dob").val('');
+//                $('.close').trigger('click');
+//                $("#table_id").append('<tr><td class="name">'+ data.name + '</td><td class="date">'+ data.date +'<td class="update" data-id='+ data.id + '><button>Update</button></td><td class="delete" data-id=' + data.id +'><button>Delete</button></td>');
+//         };
+//      });
+
 
 
 $(document).on('click','.delete', function() {
