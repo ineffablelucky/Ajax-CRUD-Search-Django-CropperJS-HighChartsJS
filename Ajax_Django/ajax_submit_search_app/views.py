@@ -7,6 +7,8 @@ from PIL import Image
 import base64
 from django.core.files.base import ContentFile
 from datetime import datetime
+# https://docs.djangoproject.com/en/2.0/ref/models/querysets/#field-lookups
+# https://www.highcharts.com/demo/3d-column-null-values/dark-unica
 
 
 def people_list(request):
