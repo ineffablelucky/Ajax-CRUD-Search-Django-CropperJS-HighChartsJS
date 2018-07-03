@@ -11,24 +11,18 @@ from datetime import datetime
 # https://www.highcharts.com/demo/3d-column-null-values/dark-unica
 
 
+def month_list():  # not a view function
+    frequency = []
+    for month in range(1, 13):
+        queryset_count = Person.objects.filter(dob__month=month).count()
+        frequency.append(queryset_count)
+
+    return frequency
+
+
 def people_list(request):
     people = Person.objects.all()
-
-    frequency = []
-    for month in range(1, 13):
-        queryset_count = Person.objects.filter(dob__month=month).count()
-        frequency.append(queryset_count)
-
-    return render(request, 'ajax_submit_search_app/name_list.html', {'people': people, 'freq': frequency})
-
-
-def month_list(request):
-    frequency = []
-    for month in range(1, 13):
-        queryset_count = Person.objects.filter(dob__month=month).count()
-        frequency.append(queryset_count)
-
-    return None
+    return render(request, 'ajax_submit_search_app/name_list.html', {'people': people, 'freq': month_list()})
 
 
 def create(request):
@@ -53,7 +47,7 @@ def create(request):
             else:
                 person_obj = Person.objects.create(name=name, dob=date)
 
-            data = {'name': name, 'date': date, 'id': person_obj.id, 'message': 'successful'}
+            data = {'name': name, 'date': date, 'id': person_obj.id, 'frequency': month_list(), 'message': 'successful'}
 
         except:
             data = {'message': 'fail'}
@@ -89,7 +83,8 @@ def update(request):
             if form.is_valid():
                 form.save(commit=True)
 
-            data = {'name': person_obj.name, 'date': person_obj.dob, 'id': person_obj.id, 'message': 'successful'}
+            data = {'name': person_obj.name, 'date': person_obj.dob, 'frequency': month_list(), 'id': person_obj.id,
+                    'message': 'successful'}
 
         except:
             data = {'message': 'fail'}
@@ -107,7 +102,7 @@ def delete(request, pk):
         try:
             person_obj = Person.objects.get(id=pk)
             person_obj.delete()
-            data = {'message': 'successful'}
+            data = {'message': 'successful', 'frequency': month_list()}
 
         except:
             data = {'message': 'fail'}

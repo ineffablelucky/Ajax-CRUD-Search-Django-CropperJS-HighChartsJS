@@ -31,31 +31,33 @@
 
 
 <body>
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Year</th>
-            <th>Update</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
+<div style="float:left">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Year</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
 
-    <tbody id="table_id">
+        <tbody id="table_id">
 
 
-        {% for p in people %}
-        <tr>
-            <td class="name">{{p.name}}</td>
-            <td class="date">{{p.dob|date:'Y-m-d' }}</td>
-            <td class="update" data-id="{{p.id}}"><button>Update</button></td>
-            <td class="delete" data-id="{{p.id}}"><button>Delete</button></td>
-        </tr>
-       {% endfor %}
+            {% for p in people %}
+            <tr>
+                <td class="name">{{p.name}}</td>
+                <td class="date">{{p.dob|date:'Y-m-d' }}</td>
+                <td class="update" data-id="{{p.id}}"><button>Update</button></td>
+                <td class="delete" data-id="{{p.id}}"><button>Delete</button></td>
+            </tr>
+           {% endfor %}
 
-    </tbody>
-</table>
-<p id="No-result-tag"></p>
+        </tbody>
+    </table>
+    <p id="No-result-tag"></p>
+</div>
 {% include "ajax_submit_search_app/create_modal.html" %}
 
 

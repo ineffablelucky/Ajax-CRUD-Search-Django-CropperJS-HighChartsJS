@@ -8,8 +8,10 @@ var $alert = $('.alert');
 var $modal = $('#modal');
 // cropper variables ends
 
-function highChartFunc(data_list) {
+
 // HIgh CHart starts
+function highChartFunc(data_list) {
+
     Highcharts.chart('high-container', {
         chart: {
             type: 'column',
@@ -21,11 +23,11 @@ function highChartFunc(data_list) {
             }
         },
         title: {
-            text: '3D chart with null values'
+            text: '3D chart'
         },
-        subtitle: {
-            text: 'Notice the difference between a 0 value and a null point'
-        },
+        //subtitle: {
+         //   text: 'Notice the difference between a 0 value and a null point'
+       // },
         plotOptions: {
             column: {
                 depth: 25
@@ -53,10 +55,9 @@ function highChartFunc(data_list) {
  }
 
 //frequency = [2, 31, null, 4, 0, 5, 1, 4, 6, 3]
-highChartFunc(frequency)
+highChartFunc(frequency) // frequency variable defined in 'name_list.html' script tag.
 
 // HIgh CHart ends1
-
 
 
 
@@ -143,6 +144,7 @@ $(document).on('submit','#create_form', function(e){
                         $("#name_id").val('');
                         $("#create_form_dob").val('');
                         $('.close').trigger('click');
+                        highChartFunc(data.frequency);
                         $("#table_id").append('<tr><td class="name">'+
                             data.name + '</td><td class="date">'+
                             data.date +'<td class="update" data-id='+
@@ -184,6 +186,7 @@ $(document).on("submit",'#delete_form', function(f){
 
          if (data.message === 'successful') {
             parent_tag.remove();
+            highChartFunc(data.frequency);
             }
 
          else if (data.message === 'fail') {
@@ -224,6 +227,7 @@ $(document).on("submit", "#update_form", function(g) {
                  success: function(data){
                      if (data.message === 'successful') {
                         $('.close').trigger('click');
+                        highChartFunc(data.frequency);
 
                         sibling_tags[0].innerHTML = data.name;
                         sibling_tags[1].innerHTML = data.date;
