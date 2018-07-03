@@ -120,6 +120,8 @@ document.getElementById('crop').addEventListener('click', function () {
 });
 // Cropper JS ends
 
+
+// Create AJAX starts
 $(document).on('submit','#create_form', function(e){
 
     e.preventDefault();
@@ -157,8 +159,10 @@ $(document).on('submit','#create_form', function(e){
                  }
         });
 });
+// Create AJAX ends
 
 
+// DElete AJAX starts
 $(document).on('click','.delete', function() {
 
     $('#myModal-DELETE').modal('show');
@@ -195,8 +199,10 @@ $(document).on("submit",'#delete_form', function(f){
     });
 
 });
+// DElete AJAX ends
 
 
+// Update Ajax starts
 $(document).on('click','.update', function() {
 
     $('#myModal-EDIT').modal('show');
@@ -243,7 +249,7 @@ $(document).on("submit", "#update_form", function(g) {
                  }
         });
 });
-
+// Update Ajax ends
 
 $("#search_bar").keyup(function(){
 
