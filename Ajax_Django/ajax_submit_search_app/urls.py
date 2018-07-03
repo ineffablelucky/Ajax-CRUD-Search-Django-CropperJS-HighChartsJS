@@ -9,6 +9,5 @@ urlpatterns = [
     path('delete/<int:pk>', view=delete, name='delete'),
     path('create/', view=create, name='create'),
     path('search/', view=search, name='search'),
-    path('month/', view=month_list, name='month'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
