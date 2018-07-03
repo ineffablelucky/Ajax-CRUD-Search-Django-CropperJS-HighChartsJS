@@ -12,8 +12,23 @@ from datetime import datetime
 
 
 def people_list(request):
-    data = Person.objects.all()
-    return render(request, 'ajax_submit_search_app/name_list.html', {'people': data})
+    people = Person.objects.all()
+
+    frequency = []
+    for month in range(1, 13):
+        queryset_count = Person.objects.filter(dob__month=month).count()
+        frequency.append(queryset_count)
+
+    return render(request, 'ajax_submit_search_app/name_list.html', {'people': people, 'freq': frequency})
+
+
+def month_list(request):
+    frequency = []
+    for month in range(1, 13):
+        queryset_count = Person.objects.filter(dob__month=month).count()
+        frequency.append(queryset_count)
+
+    return None
 
 
 def create(request):
