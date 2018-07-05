@@ -16,6 +16,7 @@
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
 
+
     <link href="{% static 'ajax_submit_search_app/main.css' %}" rel="stylesheet">
 </head>
 
@@ -26,7 +27,7 @@
 
 <form id="search_form" method="post">
     {% csrf_token %}
-    <input id="search_bar" type="text" placeholder="Search..">
+    <input id="search_bar" type="text" placeholder="Name Search Only">
 </form>
 
 
@@ -107,7 +108,7 @@
 
                     <div class="form-group">
                     	<label for="update_form_dob">Date of Birth</label>
-                        <input class="form-control" id="update_form_dob" value="" name="date"/>
+                        <input class="form-control" id="update_form_dob" placeholder="YYYY-MM-DD" value="" name="date"/>
                     </div>
 
                     <input type="submit" value="Confirm"/>

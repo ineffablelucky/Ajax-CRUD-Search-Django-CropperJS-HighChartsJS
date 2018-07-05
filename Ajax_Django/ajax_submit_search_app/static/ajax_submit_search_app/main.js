@@ -1,6 +1,7 @@
 new_img = new Image(); // cropper variables
 
 $( document ).ready(function() {
+
 // cropper variables start
 var image = document.getElementById('hidden_image_tag');
 var input = document.getElementById('create_form_image');
@@ -147,11 +148,14 @@ $(document).on('submit','#create_form', function(e){
                         $("#create_form_dob").val('');
                         $('.close').trigger('click');
                         highChartFunc(data.frequency);
+
+
                         $("#table_id").append('<tr><td class="name">'+
                             data.name + '</td><td class="date">'+
                             data.date +'<td class="update" data-id='+
                             data.id + '><button>Update</button></td><td class="delete" data-id=' +
                             data.id +'><button>Delete</button></td>');
+
                      };
                  },
                  error: function(){
