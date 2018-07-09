@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'ajax_submit_search_app',
+    'rest_framework',
 
     'django.contrib.admin',
     'django.contrib.auth',

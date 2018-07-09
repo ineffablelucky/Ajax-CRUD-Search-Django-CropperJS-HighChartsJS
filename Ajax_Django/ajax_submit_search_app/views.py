@@ -10,6 +10,13 @@ from datetime import datetime
 # https://docs.djangoproject.com/en/2.0/ref/models/querysets/#field-lookups
 # https://www.highcharts.com/demo/3d-column-null-values/dark-unica
 
+# imports related to DRF
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import PersonSerializer
+from rest_framework import status
+
 
 def month_list():  # not a view function
     frequency = []
@@ -131,3 +138,19 @@ def search(request):
     else:
         data = {'message': 'invalid request'}
         return JsonResponse(data)
+
+
+class PersonSerializerView(APIView):
+
+    def get(self, request):
+
+        person_objects = Person.objects.all()
+        serializer_data = PersonSerializer(person_objects, many=True)
+        return Response(serializer_data.data)
+
+    def post(self, request):
+        serializer = PersonSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
